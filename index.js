@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Your Gemini API key
-const GEMINI_API_KEY = "AIzaSyC8j0ORvnxI4B9wrbfgZAe_MOCVYDT1DPg";
+const GEMINI_API_KEY = "AIzaSyC8j0ORvnxI4B9wrbfgZA";
 
 // Your Unsplash API access key
 const UNSPLASH_ACCESS_KEY = "vt_tQacVvuZk_raty1o_WXoQxNmU7EStKB_T2ifwR70";
