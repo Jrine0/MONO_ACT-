@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story & Image Generator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>
+          AI Story Generator by ATRIA CODE CLUB
+          <img
+            src="img.png"
+            alt=""
+            class="profile-img"
+          />
+        </h1>
+      </div>
+      <div class="story-generator z-depth-5">
+        <div class="input-group">
+          <textarea
+            id="story-input"
+            placeholder="Enter your story prompt here..."
+            rows="10"
+          ></textarea>
+          <button id="generate-story-btn" class="btn purple darken-4">
+            Generate Monoact
+          </button>
+          <!-- <button id="generate-photo-btn" class="btn purple darken-4">
+            Generate Photo
+          </button> -->
+        </div>
+        <div id="spinner" class="spinner-wrapper">
+          <div class="spinner"></div>
+        </div>
+        <div id="generated-content" class="generated-content"></div>
+      </div>
+      <footer class="footer">
+        <p>
+          &copy; All rights reserved. Monoact by 
+          <span
+            ><a href="https://youtube.com/@code-with-Bharadwaj"
+              >Ujesh and Jitin.... </a
+            ></span
+          >
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
