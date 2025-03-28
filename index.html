@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,24 +15,33 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <script type="importmap">
+
       {
         "imports": {
           "@google/generative-ai": "https://esm.run/@google/generative-ai"
         }
       }
     </script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h1>
-          AI Story Generator by ATRIA CODE CLUB
-          <img
-            src="img.png"
-            alt=""
-            class="profile-img"
-          />
-        </h1>
+</head>
+
+<body>
+  <div class="logo-container">
+    <img src="img.png" alt="Atria Code Club Logo" class="logo">
+  </div>
+  <div class="container">
+    <div class="header">
+      <h1>
+        ATRIA CODE CLUB
+      </h1>
+      <h3>AI MONO act</h3>
+    </div>
+    <div class="story-generator z-depth-5">
+      <div class="input-group">
+        <textarea id="story-input" placeholder="Enter your story prompt here..." rows="10"></textarea>
+        <button id="generate-story-btn" class="btn purple darken-4">
+          Generate Story for a monoact
+        </button>
+
       </div>
       <div class="story-generator z-depth-5">
         <div class="input-group">
@@ -56,7 +66,7 @@
         <p>
           &copy; All rights reserved. Monoact by 
           <span
-            ><a href="https://youtube.com/@code-with-Bharadwaj"
+            ><a 
               >Ujesh and Jitin.... </a
             ></span
           >
