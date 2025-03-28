@@ -1,56 +1,75 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Your Gemini API key
-const GEMINI_API_KEY = "AIzaSyC8j0ORvnxI4B9wrbfgZA";
-
-// Your Unsplash API access key
-const UNSPLASH_ACCESS_KEY = "vt_tQacVvuZk_raty1o_WXoQxNmU7EStKB_T2ifwR70";
+const GEMINI_API_KEY = "";
 
 const generateStoryBtn = document.getElementById("generate-story-btn");
-generateStoryBtn.addEventListener("click", generateMonoact);
-
-const generatePhotoBtn = document.getElementById("generate-photo-btn");
-generatePhotoBtn.addEventListener("click", generatePhoto);
+generateStoryBtn.addEventListener("click", generateStory);
 
 const storyInput = document.getElementById("story-input");
 storyInput.addEventListener("focus", handleTextAreaFocus);
 storyInput.addEventListener("blur", handleTextAreaBlur);
 
-async function generateMonoact() {
-  const storyInput = document.getElementById("story-input").value;
+function expandPrompt(input) {
+  input = input.trim();
+
+  if (input.length === 0) {
+    displayError("Please enter a word or a phrase to generate a story.");
+    return null;
+  }
+
+  const starters = [
+    "Once upon a time,",
+    "In a faraway land,",
+    "Deep in the heart of the forest,",
+    "Long ago, in a forgotten kingdom,",
+    "Beneath the endless night sky,"
+  ];
+
+  if (input.split(" ").length <= 2) {
+    const randomStarter = starters[Math.floor(Math.random() * starters.length)];
+    return `${randomStarter} there was a place called ${input}, where something extraordinary was about to happen.`;
+  }
+
+  const validStoryStarters = starters.map(s => s.toLowerCase());
+  if (validStoryStarters.some(starter => input.toLowerCase().startsWith(starter))) {
+    return input;
+  }
+
+  return `Once upon a time, in a world where ${input}, a new adventure was about to unfold.`;
+}
+
+async function generateStory() {
+  let userInput = document.getElementById("story-input").value.trim();
+  let storyPrompt = expandPrompt(userInput);
+  
+  if (!storyPrompt) return;
+
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  // Show spinner while generating monoact
   const spinner = document.getElementById("spinner");
   spinner.style.display = "flex";
 
   try {
-    const monoactPrompt = `Write a compelling monoact script featuring a single character. The story should deeply explore their emotions, thoughts, and struggles, making it engaging and dramatic without explicitly revealing that it was AI-generated.`;
-    const result = await model.generateContent(monoactPrompt + " " + storyInput);
+    const result = await model.generateContent(storyPrompt);
     const response = await result.response;
     let story = await response.text();
 
-    // Remove AI-generated indicators and format response text
-    story = story.replace(/^#+\s*/gm, ""); // Remove markdown-style headings
-    story = story.replace(/\*/g, "");
-    story = story.replace(/\s(?=\w)/g, " ");
-    story = story.replace(/(?:\r\n|\r|\n)/g, "<br />");
+    story = story.replace(/[\*#_~`]/g, "").replace(/\s(?=\w)/g, " ").replace(/(?:\r\n|\r|\n)/g, "<br />");
 
     displayStory(story);
   } catch (error) {
-    console.error("Error generating monoact:", error);
-    displayError("Sorry, I am having trouble generating the monoact.");
+    console.error("Error generating story:", error);
+    displayError("Sorry, I am having trouble generating the story.");
   } finally {
-    // Hide spinner after generating monoact
     spinner.style.display = "none";
   }
 }
 
-
 function displayStory(story) {
   const generatedContent = document.getElementById("generated-content");
-  generatedContent.innerHTML = `<p>${story}</p><hr />`; // Add <br> after the paragraph
+  generatedContent.innerHTML = `<p>${story}</p><hr />`;
 }
 
 function displayError(message) {
@@ -62,7 +81,6 @@ async function generatePhoto() {
   const query = document.getElementById("story-input").value;
   const apiUrl = `https://api.unsplash.com/photos/random?query=${query}&count=6&client_id=${UNSPLASH_ACCESS_KEY}`;
 
-  // Show spinner while generating photos
   const spinner = document.getElementById("spinner");
   spinner.style.display = "flex";
 
@@ -79,7 +97,6 @@ async function generatePhoto() {
     console.error("Error fetching photos:", error);
     displayError("Failed to fetch photos.");
   } finally {
-    // Hide spinner after generating photos
     spinner.style.display = "none";
   }
 }
@@ -92,11 +109,6 @@ function displayPhotos(photos) {
         `<img src="${photo.urls.regular}" alt="Generated Photo" class="generated-photo">`
     )
     .join("");
-}
-
-function displayPhoto(photoUrl) {
-  const generatedContent = document.getElementById("generated-content");
-  generatedContent.innerHTML = `<img src="${photoUrl}" alt="Generated Photo" class="generated-photo">`;
 }
 
 function handleTextAreaFocus() {
